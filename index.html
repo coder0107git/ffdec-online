@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>FFDec Online | CheerpJ test</title>
+    <style>
+        body {
+            margin: 0;
+            box-sizing: content-box;
+        }
+
+        #container {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="controls">
+            <button id="progaurdTrace" onclick="cjGetProguardConfiguration()">
+                Download Progaurd Trace
+            </button>
+            <button id="start" onclick="run()">
+                Start App
+            </button>
+        </div>
+        <div id="container"></div>
+    </div>
+
+    <script src="./deps.js"></script>
+    <script src="https://cjrtnc.leaningtech.com/2.3/loader.js"></script>
+    <script>
+        const $ = document.querySelector;
+        const app = $("#app");
+        const controls = $("#app");
+        const enableProguardTrace = false;
+
+        if(!enableProguardTrace) {
+            controls.querySelector("#progaurdTrace").style.display = "none";
+        }
+
+        cheerpjInit({
+            clipboardMode: "system", // Integrated app and system clipboard
+            disableErrorReporting: false, // When set to false, report errors on runtime
+            disableLoadTimeReporting: false, // No clue what this does, left at default
+            enableInputMethods: true,
+            javaProperties: [ // Options normally passed through the commandline
+                "java.net.preferIPv4Stack=true",
+            ],
+            status: "default",
+            enableProguardTrace
+        });
+		cheerpjCreateDisplay(-1, -1, $("#container")); // Make app sizing responsive
+		/*cheerpjRunMain(
+			"com.jpexs.decompiler.flash.gui.Main",
+			`/app/my_application_archive.jar:${dependencies("/app/lib/").join(":")}`,
+		);*/
+        const run = () => {
+            $("#start").setAttribute("disabled", "true");
+
+            cheerpjRunJarWithClasspath(
+                "/app/ffdec.jar",
+                dependencies("/app/lib/").join(":"),
+            )
+        }
+	</script>
+</body>
+</html>
