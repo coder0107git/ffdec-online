@@ -23,20 +23,23 @@
             <button id="start" onclick="run()">
                 Start App
             </button>
+            <button id="fullscreen" onclick="$('#container').requestFullScreen()" disabled>
+                Fullscreen
+            </button>
         </div>
         <div id="container"></div>
     </div>
 
+    <script src="./console.js"></script>
     <script src="./deps.js"></script>
     <script src="https://cjrtnc.leaningtech.com/2.3/loader.js"></script>
     <script>
-        const $ = document.querySelector;
+        const $ = (...params) => document.querySelector(...params);
         const app = $("#app");
-        const controls = $("#app");
         const enableProguardTrace = false;
 
         if(!enableProguardTrace) {
-            controls.querySelector("#progaurdTrace").style.display = "none";
+            $("#progaurdTrace").style.display = "none";
         }
 
         cheerpjInit({
@@ -57,11 +60,14 @@
 		);*/
         const run = () => {
             $("#start").setAttribute("disabled", "true");
+            $("#fullscreen").removeAttribute("disabled");
 
-            cheerpjRunJarWithClasspath(
-                "/app/ffdec.jar",
-                dependencies("/app/lib/").join(":"),
-            )
+            initConsole().then(
+                () => cheerpjRunJarWithClasspath(
+                    "/app/ffdec.jar",
+                    dependencies({ prefix: "/app/lib/" }).join(":"),
+                )
+            );
         }
 	</script>
 </body>

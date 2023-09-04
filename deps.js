@@ -1,10 +1,10 @@
-function prefix(prefix, deps) {
+function _prefix(prefix, deps) {
     return deps
         .split("\n")
         .map(dep => `${prefix}${dep}`);
 }
 
-const dependencies = prefix => prefix(prefix, `avi.jar
+const dependencies = ({ prefix }) => _prefix(prefix, `avi.jar
 cmykjpeg.jar
 ddsreader.jar
 ffdec_lib.jar
