@@ -20,7 +20,7 @@
             <button id="progaurdTrace" onclick="cjGetProguardConfiguration()">
                 Download Progaurd Trace
             </button>
-            <button id="start" onclick="run()" disabled>
+            <button id="start" onclick="run()">
                 Start App
             </button>
             <button id="fullscreen" onclick="$('#container').requestFullScreen()" disabled>
@@ -55,7 +55,14 @@
                 "java.net.preferIPv4Stack=true",
             ],
             status: "default",
-            enableProguardTrace
+            enableProguardTrace,
+            listener: {
+                jsLoadReason: (scriptName, directReason, userReason) => 
+                    console.info(`[Cheerp Loader]: Loading "${scriptName}": ${directReason}: ${userReason}`),
+                preloadProgress: (loadedFiles, totalFiles) => {
+                    console.info(`[Cheerp Loader]: Loaded ${loadedFiles}/${totalFiles} files (${(loadedFiles / totalFiles) * 100}%)`);
+                }
+            }
         });
 		cheerpjCreateDisplay(-1, -1, $("#container")); // Make app sizing responsive
 		/*cheerpjRunMain(
@@ -71,9 +78,6 @@
                 dependencies({ prefix: "/app/lib/" }).join(":"),
             );
         }
-
-        initConsole()
-            .then(() => $("#start").removeAttribute("disabled"));
 	</script>
 </body>
 </html>
