@@ -20,7 +20,7 @@
             <button id="progaurdTrace" onclick="cjGetProguardConfiguration()">
                 Download Progaurd Trace
             </button>
-            <button id="start" onclick="run()">
+            <button id="start" onclick="run()" disabled>
                 Start App
             </button>
             <button id="fullscreen" onclick="$('#container').requestFullScreen()" disabled>
@@ -39,7 +39,8 @@
         const enableProguardTrace = false;
 
         if(!enableProguardTrace) {
-            $("#progaurdTrace").style.display = "none";
+            $("#progaurdTrace").setAttribute("disabled", "true");
+            $("#progaurdTrace").setAttribute("title", "Disabled in config");
         }
 
         cheerpjInit({
@@ -62,13 +63,15 @@
             $("#start").setAttribute("disabled", "true");
             $("#fullscreen").removeAttribute("disabled");
 
-            initConsole().then(
-                () => cheerpjRunJarWithClasspath(
-                    "/app/ffdec.jar",
-                    dependencies({ prefix: "/app/lib/" }).join(":"),
-                )
+            cheerpjRunJarWithClasspath(
+                "/app/ffdec.jar",
+                dependencies({ prefix: "/app/lib/" }).join(":"),
             );
         }
+
+        initConsole()
+            .then(() => console.log("Test"))
+            .then(() => $("#start").removeAttribute("disabled"));
 	</script>
 </body>
 </html>
