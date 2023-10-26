@@ -27,7 +27,7 @@
                 Fullscreen
             </button>
             <button onclick="eval('console.log(`Hi!`)')">
-                Test log
+                Test loging
             </button>
         </div>
         <div id="container"></div>
@@ -35,8 +35,8 @@
 
     <script src="./console.js"></script>
     <script src="./deps.js"></script>
-    <script src="https://cjrtnc.leaningtech.com/2.3/loader.js"></script>
-    <script>
+    <script src="https://cjrtnc.leaningtech.com/3.0rc1/cj3loader.js"></script>
+    <script type="module">
         const $ = (...params) => document.querySelector(...params);
         const app = $("#app");
         const enableProguardTrace = false;
@@ -46,40 +46,35 @@
             $("#progaurdTrace").setAttribute("title", "Disabled in config");
         }
 
-        cheerpjInit({
-            clipboardMode: "system", // Integrated app and system clipboard
-            disableErrorReporting: false, // When set to false, report errors on runtime
-            disableLoadTimeReporting: false, // No clue what this does, left at default
+        await cheerpjInit({
+            clipboardMode: "permission", // Integrated app and system clipboard
             enableInputMethods: true,
             javaProperties: [ // Options normally passed through the commandline
                 "java.net.preferIPv4Stack=true",
             ],
             status: "default",
-            enableProguardTrace,
-            listener: {
-                jsLoadReason: (scriptName, directReason, userReason) => 
-                    console.info(`[Cheerp Loader]: Loading "${scriptName}": ${directReason}: ${userReason}`),
-                preloadProgress: (loadedFiles, totalFiles) => {
-                    console.info(`[Cheerp Loader]: Loaded ${loadedFiles}/${totalFiles} files (${(loadedFiles / totalFiles) * 100}%)`);
-                }
-            }
+            preloadProgress: (loadedFiles, totalFiles) => {
+		console.info(`[Cheerp Loader]: Loaded ${loadedFiles}/${totalFiles} files (${(loadedFiles / totalFiles) * 100}%)`);
+	    }
         });
-		cheerpjCreateDisplay(-1, -1, $("#container")); // Make app sizing responsive
-		/*cheerpjRunMain(
-			"com.jpexs.decompiler.flash.gui.Main",
-			`/app/my_application_archive.jar:${dependencies("/app/lib/").join(":")}`,
-		);*/
-        const run = () => {
+	cheerpjCreateDisplay(-1, -1, $("#container")); // Make app sizing responsive
+	/*cheerpjRunMain(
+	    "com.jpexs.decompiler.flash.gui.Main",
+            `/app/my_application_archive.jar:${dependencies("/app/lib/").join(":")}`,
+	);*/
+        const run = async () => {
             $("#start").setAttribute("disabled", "true");
             $("#fullscreen").removeAttribute("disabled");
 
-            cheerpjRunJarWithClasspath(
+            /*cheerpjRunJarWithClasspath(
                 "/app/ffdec.jar",
                 dependencies({ prefix: "/app/lib/" }).join(":"),
-            );
+            );*/
+
+	    await cheerpjRunJar("/app/ffdec.jar");
         }
 
-        run();
+        //run();
 	</script>
 </body>
 </html>
