@@ -46,6 +46,8 @@
             $("#progaurdTrace").setAttribute("title", "Disabled in config");
         }
 
+        console.log("Pre CheerpJ init");
+
         await cheerpjInit({
             clipboardMode: "permission", // Integrated app and system clipboard
             enableInputMethods: true,
@@ -54,14 +56,17 @@
             ],
             status: "default",
             preloadProgress: (loadedFiles, totalFiles) => {
-		console.info(`[Cheerp Loader]: Loaded ${loadedFiles}/${totalFiles} files (${(loadedFiles / totalFiles) * 100}%)`);
-	    }
+                console.info(`[Cheerp Loader]: Loaded ${loadedFiles}/${totalFiles} files (${(loadedFiles / totalFiles) * 100}%)`);
+            }
         });
-	cheerpjCreateDisplay(-1, -1, $("#container")); // Make app sizing responsive
-	/*cheerpjRunMain(
-	    "com.jpexs.decompiler.flash.gui.Main",
+        cheerpjCreateDisplay(-1, -1, $("#container")); // Make app sizing responsive
+        /*cheerpjRunMain(
+            "com.jpexs.decompiler.flash.gui.Main",
             `/app/my_application_archive.jar:${dependencies("/app/lib/").join(":")}`,
-	);*/
+        );*/
+
+        console.log("CheerpJ initalized");
+        
         const run = async () => {
             $("#start").setAttribute("disabled", "true");
             $("#fullscreen").removeAttribute("disabled");
@@ -71,7 +76,9 @@
                 dependencies({ prefix: "/app/lib/" }).join(":"),
             );*/
 
-	    await cheerpjRunJar("/app/ffdec.jar");
+            console.log("Pre loading CheerpJ program");
+	        await cheerpjRunJar("/app/ffdec.jar");
+            console.log("Post loading CheerpJ program");
         }
 
         //run();
