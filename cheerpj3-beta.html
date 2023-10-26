@@ -67,7 +67,7 @@
 
         console.log("CheerpJ initalized");
         
-        const run = async () => {
+        async function run() {
             $("#start").setAttribute("disabled", "true");
             $("#fullscreen").removeAttribute("disabled");
 
@@ -77,11 +77,11 @@
             );*/
 
             console.log("Pre loading CheerpJ program");
-	        await cheerpjRunJar("/app/ffdec.jar");
+            await cheerpjRunJar("/app/ffdec.jar");
             console.log("Post loading CheerpJ program");
         }
-
+        
         //run();
-	</script>
+    </script>
 </body>
 </html>
