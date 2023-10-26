@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<title>FFDec Online | CheerpJ test</title>
+    <meta charset="utf-8" />
+    <title>FFDec Online | CheerpJ test</title>
     <style>
         body {
             margin: 0;
@@ -49,7 +49,7 @@
         console.log("Pre CheerpJ init");
 
         await cheerpjInit({
-            clipboardMode: "permission", // Integrated app and system clipboard
+            clipboardMode: "system", // Integrated app and system clipboard
             enableInputMethods: true,
             javaProperties: [ // Options normally passed through the commandline
                 "java.net.preferIPv4Stack=true",
@@ -77,11 +77,13 @@
             );*/
 
             console.log("Pre loading CheerpJ program");
-            await cheerpjRunJar("/app/ffdec.jar");
+            const exitCode = await cheerpjRunJar("/app/ffdec.jar");
             console.log("Post loading CheerpJ program");
+
+            return exitCode;
         }
         
-        await run();
+        console.log(`Exit code: ${await run()}`);
 
         }; // End load
     </script>
